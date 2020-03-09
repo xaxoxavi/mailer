@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+   <?!= HtmlService.createHtmlOutputFromFile('style').getContent(); ?>
+   
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+   
+    <base target="_top">
+    <script>
+      function onFailure(error) {
+        var div = document.getElementById('output');
+        div.innerHTML = "ERROR: " + error.message;
+      }
+      
+      function send(){
+      
+    
+          var bodyText = $('#bodyText').val();
+          var subject =  $('#subject').val();
+    
+          $('#spinner').show();
+          
+           google.script.run
+            .withFailureHandler(onFailure)
+            .withSuccessHandler(closeDialog)
+            .sendMail(subject,bodyText);
+      }
+      
+       function closeDialog() {
+        google.script.host.close();
+      }
+      
+      
+    </script>
+  </head>
+  <body>
+      <div id="main">
+         <div id="output"></div>
+         
+         <div id="make-quiz" class="form-element">
+           <label for="subject">Subject:</label>
+           <input type="text" id="subject"/>
+         </div>
+           
+         <div id="make-quiz" class="form-element">
+           <textarea id="bodyText" rows="30" cols="60"></textarea>
+         </div>
+      
+         
+         <div class="submit-container">
+        
+           <div id="create-form-btn" class="form-element">
+             <input type="button" class="action" value="Send" onclick="send()" />
+           </div>
+      
+           <div id="spinner" class="hide">
+             <img src="https://i.pinimg.com/originals/f9/41/ae/f941ae9d16fd7d2957eea6e5b1100d1e.gif"/>
+           </div>
+        </div>
+         
+      
+      </div>
+  </body>
+</html>
+
+
+
