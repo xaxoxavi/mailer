@@ -26,6 +26,7 @@ function sendMail(subject,body){
   
     for (var i = 2; i < dataRange.getNumRows()+1; i++) {
         var email = dataRange.getCell(i,1).getValue();
+        var bodyCloned = {body: body.toString()};
        
         if (email.length > 1){
           
@@ -36,20 +37,16 @@ function sendMail(subject,body){
             var field = dataRange.getCell(i,j).getValue();
             Logger.log("<"+j+">");
             var re = new RegExp("<"+j+">", 'g');
-            body = body.replace(re,field); 
+            bodyCloned.body = bodyCloned.body.replace(re,field); 
           
           }
          
-          
-          //var nota =  dataRange.getCell(i,numCol).getValue();
-          //var message = 'La nota de ' + columna + ' es: ' + Math.round(nota * 100)/100;
-      
           Logger.log('%s',email);
           
           MailApp.sendEmail({to:email, 
                              subject:subject,
-                             htmlBody: body});
-          break;
+                             htmlBody: bodyCloned.body});
+          
         }
 
     }
